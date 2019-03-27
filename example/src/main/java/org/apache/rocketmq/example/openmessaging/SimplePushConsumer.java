@@ -23,6 +23,7 @@ import io.openmessaging.OMSBuiltinKeys;
 import io.openmessaging.consumer.MessageListener;
 import io.openmessaging.consumer.PushConsumer;
 
+//OMS PushConsumer 添加到指定的队列，并通过 MessageListener 消费这些消息。
 public class SimplePushConsumer {
     public static void main(String[] args) {
         final MessagingAccessPoint messagingAccessPoint = OMS
@@ -42,6 +43,7 @@ public class SimplePushConsumer {
             }
         }));
 
+        //监听器来进行消费
         consumer.attachQueue("OMS_HELLO_TOPIC", new MessageListener() {
             @Override
             public void onReceived(Message message, Context context) {

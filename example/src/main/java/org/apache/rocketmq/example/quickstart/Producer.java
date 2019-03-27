@@ -58,12 +58,14 @@ public class Producer {
                  */
                 Message msg = new Message("TopicTest" /* Topic */,
                     "TagA" /* Tag */,
+                    "sss",
                     ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
                 );
 
                 /*
                  * Call send message to deliver message to one of brokers.
                  */
+                // 发送消息到一个Broker
                 SendResult sendResult = producer.send(msg);
 
                 System.out.printf("%s%n", sendResult);

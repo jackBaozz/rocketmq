@@ -29,6 +29,7 @@ public class SplitBatchProducer {
     public static void main(String[] args) throws Exception {
 
         DefaultMQProducer producer = new DefaultMQProducer("BatchProducerGroupName");
+        producer.setNamesrvAddr("10.5.51.43:9876");
         producer.start();
 
         //large batch
@@ -39,6 +40,7 @@ public class SplitBatchProducer {
         }
 
         //split the large batch into small ones:
+        //把大的消息分裂成若干个小的消息
         ListSplitter splitter = new ListSplitter(messages);
         while (splitter.hasNext()) {
             List<Message> listItem = splitter.next();
@@ -48,6 +50,7 @@ public class SplitBatchProducer {
 
 }
 
+//复杂度只有当你发送大批量时才会增长，你可能不确定它是否超过了大小限制（4MB）。这时候你最好把你的消息列表分割一下：
 class ListSplitter implements Iterator<List<Message>> {
     private int sizeLimit = 1000 * 1000;
     private final List<Message> messages;
@@ -73,12 +76,15 @@ class ListSplitter implements Iterator<List<Message>> {
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 tmpSize += entry.getKey().length() + entry.getValue().length();
             }
-            tmpSize = tmpSize + 20; //for log overhead
+            tmpSize = tmpSize + 20; //for log overhead // 增加日志的开销20字节
             if (tmpSize > sizeLimit) {
                 //it is unexpected that single message exceeds the sizeLimit
                 //here just let it go, otherwise it will block the splitting process
+                //单个消息超过了最大的限制
+                //忽略,否则会阻塞分裂的进程
                 if (nextIndex - currIndex == 0) {
                     //if the next sublist has no element, add this one and then break, otherwise just break
+                    //假如下一个子列表没有元素,则添加这个子列表然后退出循环,否则只是退出循环
                     nextIndex++;
                 }
                 break;
@@ -90,6 +96,7 @@ class ListSplitter implements Iterator<List<Message>> {
             }
 
         }
+
         List<Message> subList = messages.subList(currIndex, nextIndex);
         currIndex = nextIndex;
         return subList;

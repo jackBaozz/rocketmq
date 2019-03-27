@@ -22,6 +22,7 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
+//可以使用SQL表达式筛选消息。SQL特性可以通过发送消息时的属性来进行计算。在RocketMQ定义的语法下，可以实现一些简单的逻辑。
 public class SqlFilterProducer {
 
     public static void main(String[] args) throws Exception {
@@ -37,6 +38,7 @@ public class SqlFilterProducer {
                 tags[i % tags.length],
                 ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
+            // 设置一些属性
             msg.putUserProperty("a", String.valueOf(i));
 
             SendResult sendResult = producer.send(msg);

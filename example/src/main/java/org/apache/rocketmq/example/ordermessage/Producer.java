@@ -29,6 +29,10 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
+
+/**
+ * 顺序消息生产
+ */
 public class Producer {
     public static void main(String[] args) throws UnsupportedEncodingException {
         try {

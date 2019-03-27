@@ -40,6 +40,7 @@ public class SimpleProducer {
         System.out.printf("Producer startup OK%n");
 
         {
+            //同步
             Message message = producer.createBytesMessage("OMS_HELLO_TOPIC", "OMS_HELLO_BODY".getBytes(Charset.forName("UTF-8")));
             SendResult sendResult = producer.send(message);
             //final Void aVoid = result.get(3000L);
@@ -48,6 +49,7 @@ public class SimpleProducer {
 
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         {
+            //异步
             final Future<SendResult> result = producer.sendAsync(producer.createBytesMessage("OMS_HELLO_TOPIC", "OMS_HELLO_BODY".getBytes(Charset.forName("UTF-8"))));
             result.addListener(new FutureListener<SendResult>() {
                 @Override
@@ -63,6 +65,7 @@ public class SimpleProducer {
         }
 
         {
+            //单向发送
             producer.sendOneway(producer.createBytesMessage("OMS_HELLO_TOPIC", "OMS_HELLO_BODY".getBytes(Charset.forName("UTF-8"))));
             System.out.printf("Send oneway message OK%n");
         }

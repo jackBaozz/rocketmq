@@ -38,6 +38,8 @@ import org.apache.rocketmq.common.filter.ExpressionType;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.srvutil.ServerUtil;
 
+
+//统计基准消费者
 public class Consumer {
 
     public static void main(String[] args) throws MQClientException, IOException {

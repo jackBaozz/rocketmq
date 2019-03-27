@@ -53,6 +53,7 @@ public class SimplePullConsumer {
         System.out.printf("Consumer startup OK%n");
 
         // Keep running until we find the one that has just been sent
+        // 运行直到发现一个消息被发送了
         boolean stop = false;
         while (!stop) {
             Message message = consumer.receive();
